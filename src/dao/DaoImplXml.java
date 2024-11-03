@@ -54,13 +54,8 @@ public class DaoImplXml implements Dao {
 
 	@Override
 	public boolean writeInventory(ArrayList<Product> inventory) {
-		if(inventory.size() >= 1) {
 			DomWriter domWriter = new DomWriter(inventory);
 			return domWriter.generateDocument();
-		}else {
-			return false;
-		}
-		
 	}
 
 }

@@ -104,11 +104,13 @@ public class DomWriter {
 
 			generated = true;
 
-		} catch (IOException e) {
-			System.out.println("Error when creating writter file");
-		} catch (TransformerException e) {
-			System.out.println("Error transforming the document");
-		}
+		 } catch (IOException e) {
+		        System.out.println("Error al crear el archivo: " + e.getMessage());
+		    } catch (TransformerException e) {
+		        System.out.println("Error al transformar el documento: " + e.getMessage());
+		    } catch (Exception e) {
+		        System.out.println("Error inesperado: " + e.getMessage());
+		    }
 		return generated;
 	}
 }
