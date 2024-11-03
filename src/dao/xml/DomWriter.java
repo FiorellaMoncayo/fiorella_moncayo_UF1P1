@@ -11,6 +11,7 @@ import java.util.Date;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -59,10 +60,11 @@ public class DomWriter {
 			product.appendChild(name);
 
 			Element price = document.createElement("price");
-	        price.setAttribute("currency", "€");
-	        price.setTextContent(String.valueOf(productData.getPublicPrice().getValue())); // Establece el valor numérico
-	        product.appendChild(price);
-			
+			price.setAttribute("currency", "€");
+			price.setTextContent(String.valueOf(productData.getPublicPrice().getValue())); 
+																							
+			product.appendChild(price);
+
 			Element stock = document.createElement("stock");
 			stock.setTextContent(String.valueOf(productData.getStock()));
 			product.appendChild(stock);
@@ -84,11 +86,6 @@ public class DomWriter {
 			String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 			String fileName = "inventory_" + date + ".xml";
 
-			File directory = new File("files");
-			if (!directory.exists()) {
-				directory.mkdirs();
-			}
-
 			File file = new File("files/" + fileName);
 			FileWriter fw = new FileWriter(file);
 			PrintWriter pw = new PrintWriter(fw);
@@ -96,11 +93,16 @@ public class DomWriter {
 			TransformerFactory factory = TransformerFactory.newInstance();
 			Transformer transformer = factory.newTransformer();
 
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+
 			Source source = new DOMSource(document);
 			Result result = new StreamResult(pw);
 
 			transformer.transform(source, result);
 			System.out.println("XML document saved as: " + fileName);
+
+			generated = true;
 
 		} catch (IOException e) {
 			System.out.println("Error when creating writter file");
@@ -108,6 +110,5 @@ public class DomWriter {
 			System.out.println("Error transforming the document");
 		}
 		return generated;
-
 	}
 }
