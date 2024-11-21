@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import dao.Dao;
-import dao.DaoImplXml;
+import dao.DaoImplJaxb;
 
 public class Shop {
 	private Amount cash = new Amount(100.00);
@@ -29,7 +29,7 @@ public class Shop {
 	private ArrayList<Sale> sales;
 	private int numberSales;
 //	Dao dao = new DaoImplFile();
-	private DaoImplXml dao = new DaoImplXml();
+	private Dao dao = new DaoImplJaxb();
 
 	final static double TAX_RATE = 1.04;
 
@@ -41,7 +41,14 @@ public class Shop {
 	
 
 	public boolean WriteInventory() {
-		return dao.writeInventory(inventory);
+		//return dao.writeInventory(inventory);
+		boolean result = dao.writeInventory(inventory);
+		if (result) {
+	        System.out.println("Inventario guardado correctamente.");
+	    } else {
+	        System.err.println("Hubo un error al guardar el inventario.");
+	    }
+	    return result;
 	}
 	
 	

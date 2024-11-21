@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inventory>
+    <product>
+        <name>Melocoton</name>
+        <wholesalerPrice>
+            <value>10.00</value>
+        </wholesalerPrice>
+        <publicPrice>
+            <value>20.00</value>
+        </publicPrice>
+        <available>true</available>
+        <stock>10</stock>
+    </product>
+    <product>
+        <name>Fresa</name>
+        <wholesalerPrice>
+            <value>5.00</value>
+        </wholesalerPrice>
+        <publicPrice>
+            <value>10.00</value>
+        </publicPrice>
+        <available>true</available>
+        <stock>20</stock>
+    </product>
+</inventory>
