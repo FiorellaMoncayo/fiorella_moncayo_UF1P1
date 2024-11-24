@@ -1,9 +1,9 @@
 package model;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "product")
@@ -15,11 +15,12 @@ public class Product {
     private Amount wholesalerPrice;
     private boolean available;
     private int stock;
-    private static int totalProducts;
+    private static int totalProducts = 0;
     
     public final static double EXPIRATION_RATE=0.60;
     
     public Product() {
+    	this.id = ++totalProducts;
     	
     }
     
@@ -34,7 +35,7 @@ public class Product {
 		totalProducts++;
 	}
 
-	@XmlTransient
+	@XmlAttribute(name = "id")
 	public int getId() {
 		return id;
 	}
@@ -43,7 +44,7 @@ public class Product {
 		this.id = id;
 	}
 
-	@XmlElement
+	@XmlAttribute(name = "name")
 	public String getName() {
 		return name;
 	}
@@ -52,7 +53,7 @@ public class Product {
 		this.name = name;
 	}
 
-	@XmlElement
+	@XmlElement(name = "publicPrice")
 	public Amount getPublicPrice() {
 		return publicPrice;
 	}
@@ -61,16 +62,19 @@ public class Product {
 		this.publicPrice = publicPrice;
 	}
 
-	@XmlElement
+	@XmlElement(name="wholesalerPrice")
 	public Amount getWholesalerPrice() {
 		return wholesalerPrice;
 	}
 
 	public void setWholesalerPrice(Amount wholesalerPrice) {
+		if(wholesalerPrice != null) {
+			this.publicPrice = new Amount(wholesalerPrice.getValue()*2);
+		}
 		this.wholesalerPrice = wholesalerPrice;
 	}
 
-	@XmlElement
+	@XmlElement(name="available")
 	public boolean isAvailable() {
 		return available;
 	}
@@ -79,7 +83,7 @@ public class Product {
 		this.available = available;
 	}
 
-	@XmlElement
+	@XmlElement(name="stock")
 	public int getStock() {
 		return stock;
 	}

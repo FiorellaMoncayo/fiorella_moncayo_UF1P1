@@ -1,25 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<inventory>
-    <product>
-        <name>Melocoton</name>
-        <wholesalerPrice>
-            <value>10.00</value>
-        </wholesalerPrice>
-        <publicPrice>
-            <value>20.00</value>
-        </publicPrice>
-        <available>true</available>
-        <stock>10</stock>
-    </product>
-    <product>
-        <name>Fresa</name>
-        <wholesalerPrice>
-            <value>5.00</value>
-        </wholesalerPrice>
-        <publicPrice>
-            <value>10.00</value>
-        </publicPrice>
-        <available>true</available>
-        <stock>20</stock>
-    </product>
-</inventory>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<products>
+	<product name="prueba5">
+		<available>true</available>
+		<wholesalerPrice>10.0</wholesalerPrice>
+		<stock>10</stock>
+	</product>
+	<product name="prueba">
+		<available>true</available>
+		<wholesalerPrice>10.0</wholesalerPrice>
+		<stock>20</stock>
+	</product>
+	<product name="prueba4">
+		<available>true</available>
+		<wholesalerPrice>20.0</wholesalerPrice>
+		<stock>3</stock>
+	</product>
+	<product name="prueba8">
+		<available>true</available>
+		<wholesalerPrice>10.0</wholesalerPrice>
+		<stock>1</stock>
+	</product>
+</products>

@@ -1,8 +1,13 @@
- package model;
+package model;
 
 import java.text.DecimalFormat;
-import javax.xml.bind.annotation.XmlElement;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlValue;
+
+@XmlType(propOrder = {"value", "currency"})
 public class Amount {
 	private double value;	
 	private String currency="€";
@@ -17,8 +22,12 @@ public class Amount {
 		super();
 		this.value = value;
 	}
+	@XmlAttribute(name = "currency")
+	public String getCurrency() {
+		return currency;
+	}
 
-	@XmlElement
+	@XmlValue
 	public double getValue() {
 		return value;
 	}

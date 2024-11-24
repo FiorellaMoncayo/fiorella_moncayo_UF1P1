@@ -1,4 +1,3 @@
-
 package dao.jaxb;
 
 import javax.xml.bind.JAXBContext; //Maneja el contexto para la conversión
@@ -37,10 +36,6 @@ public class JaxbUnMarshaller { // Esta clase se encargará de convertir archivo
 			System.err.println("El objeto deserializado es null o no contiene productos.");
 			return null;
 		}
-		for (Product p : products.getProducts()) {
-			System.out.println(p);
-		}
-
 		return products;
 
 	}

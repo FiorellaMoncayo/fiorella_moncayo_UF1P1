@@ -29,11 +29,13 @@ public class Shop {
 	private ArrayList<Sale> sales;
 	private int numberSales;
 //	Dao dao = new DaoImplFile();
-	private Dao dao = new DaoImplJaxb();
+//	private Dao dao = new DaoImplJaxb();
+	private DaoImplJaxb dao;
 
 	final static double TAX_RATE = 1.04;
 
 	public Shop() {
+		this.dao = new DaoImplJaxb();
 		inventory = new ArrayList<Product>();
 		sales = new ArrayList<Sale>();
 	}
@@ -456,6 +458,8 @@ public class Shop {
 		}
 		inventory.add(product);
 		numberProducts++;
+		
+		dao.writeInventory(inventory);
 	}
 	
 	

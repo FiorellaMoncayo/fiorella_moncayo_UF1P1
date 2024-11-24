@@ -1,20 +1,22 @@
 package model;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 
-@XmlRootElement(name = "inventory")
+@XmlRootElement(name = "products")
 public class ProductList {
 
-	private ArrayList<Product> products;
+	private int total;
+	
+	private ArrayList<Product> products = new ArrayList<>();
 
 	public ProductList() {
 		
 	}
 
 	public ProductList(ArrayList<Product> productList) {
-		// TODO Auto-generated constructor stub
 		super();
 		this.products = productList;
 		
@@ -27,5 +29,10 @@ public class ProductList {
 
 	public void setProducts(ArrayList<Product> products) {
 		this.products = products;
+	}
+	
+	@XmlAttribute(name = "total")
+	public int getTotal() {
+		return products.size();
 	}
 }

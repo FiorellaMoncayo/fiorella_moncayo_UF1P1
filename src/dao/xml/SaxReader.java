@@ -29,7 +29,7 @@ public class SaxReader extends DefaultHandler {
 		case "product":
 			String productName = attributes.getValue("name");
 			product = new Product(productName, new Amount(0), true, 0);
-			products.add(product);
+			//products.add(product);
 			// this.product = new Product();
 			break;
 		case "name":
@@ -43,6 +43,9 @@ public class SaxReader extends DefaultHandler {
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		switch (qName) {
+		case "product":
+		    products.add(product);
+		    break;
 		case "name":
 			product.setName(buffer.toString());
 			break;

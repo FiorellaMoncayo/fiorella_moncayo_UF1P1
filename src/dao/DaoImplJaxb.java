@@ -50,8 +50,9 @@ public class DaoImplJaxb implements Dao{
 	public boolean writeInventory(ArrayList<Product> products) { 
 		try {
 			ProductList productList = new ProductList(products);
-			JaxbMarshaller jaxbMarshaller = new JaxbMarshaller();
-			jaxbMarshaller.marshal(productList);
+			//JaxbMarshaller jaxbMarshaller = new JaxbMarshaller();
+			//jaxbMarshaller.marshal(productList);
+			marshaller.marshal(productList);
 			System.out.println("El inventario se ha guardado correctamente en el archivo XML.");
 	        return true;
 		} catch (Exception e) {

@@ -45,7 +45,8 @@ public class DomWriter {
 	public boolean generateDocument() {
 		// PAREND NODE
 		Element products = document.createElement("products");
-		products.setAttribute("total", String.valueOf(secondInventory.size()));
+		//products.setAttribute("total", String.valueOf(secondInventory.size()));
+		products.setAttribute("total", String.valueOf(Product.getTotalProducts()));
 		document.appendChild(products);
 
 		// CHILD NODES
@@ -71,11 +72,13 @@ public class DomWriter {
 
 		}
 
-		if (generateXml()) {
+	/*	if (generateXml()) {
 			return true;
 		} else {
 			return false;
-		}
+		} */
+		
+		return generateXml();
 
 	}
 
