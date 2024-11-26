@@ -54,8 +54,8 @@ public class DaoImplXml implements Dao {
 
 	@Override
 	public boolean writeInventory(ArrayList<Product> inventory) {
-			DomWriter domWriter = new DomWriter(inventory);
-			return domWriter.generateDocument();
+		DomWriter domWriter = new DomWriter(inventory);
+		return domWriter.generateDocument();
 	}
 
 }
