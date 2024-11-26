@@ -24,10 +24,13 @@ public class JaxbUnMarshaller { // Esta clase se encargará de convertir archivo
 			Unmarshaller unmarshaller = context.createUnmarshaller(); // Se crea un objeto Unmarshaller a partir del
 																		// contexto. Este objeto realizará la conversión
 			System.out.println("unmarshalling...");
-			products = (ProductList) unmarshaller.unmarshal(new File("jaxb/inputInventory.xml")); // Convierte el archivo
-																									// XML en un objeto
-																									// de tipo
-																									// ProductList
+			products = (ProductList) unmarshaller.unmarshal(new File("jaxb/inputInventory.xml")); // Convierte el archivo XML en un objeto de tipo ProductList
+			
+			for(Product product : products.getProducts()) {
+			    System.out.println(product);
+			}
+			System.out.println("----------");
+			
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}

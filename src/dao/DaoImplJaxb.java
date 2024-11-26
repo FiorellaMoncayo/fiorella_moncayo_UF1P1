@@ -34,16 +34,22 @@ public class DaoImplJaxb implements Dao{
 
 	@Override
 	public ArrayList<Product> getInventory() { //método para leer un archivo XML y convertirlo en un objeto ProductList
-		//ArrayList<Product> productos = unMarshaller.unmarshal().getProducts();
-		//return productos;
-		JaxbUnMarshaller unmarshaller = new JaxbUnMarshaller();
-		ProductList productList = unMarshaller.unmarshal();
-		
-		if(productList == null) {
-			return null;
+		try {
+			//ArrayList<Product> productos = unMarshaller.unmarshal().getProducts();
+			//return productos;
+			JaxbUnMarshaller unmarshaller = new JaxbUnMarshaller();
+			ProductList productList = unMarshaller.unmarshal();
+			
+			if(productList == null) {
+				return null;
+			}
+			
+			return new ArrayList<>(productList.getProducts());	
+		} catch (Exception e) { 
+			System.out.println("Ocurrió un error al intentar obtener el inventario: " + e.getMessage());
+			return new ArrayList<>();
 		}
 		
-		return new ArrayList<>(productList.getProducts());
  	}
 
 	@Override
@@ -52,12 +58,9 @@ public class DaoImplJaxb implements Dao{
 			ProductList productList = new ProductList(products);
 			//JaxbMarshaller jaxbMarshaller = new JaxbMarshaller();
 			//jaxbMarshaller.marshal(productList);
-			marshaller.marshal(productList);
-			System.out.println("El inventario se ha guardado correctamente en el archivo XML.");
-	        return true;
+			boolean marshalOk = marshaller.marshal(productList);
+	        return marshalOk;
 		} catch (Exception e) {
-			System.err.println("Error al guardar el inventario en el archivo XML:");
-			e.printStackTrace();
 			return false;
 		}
 		

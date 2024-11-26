@@ -7,26 +7,26 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "product")
-@XmlType(propOrder = {"name", "available", "wholesalerPrice", "publicPrice", "stock"})
+@XmlType(propOrder = { "name", "available", "wholesalerPrice", "publicPrice", "stock" })
 public class Product {
 	private int id;
-    private String name;
-    private Amount publicPrice;
-    private Amount wholesalerPrice;
-    private boolean available;
-    private int stock;
-    private static int totalProducts = 0;
-    
-    public final static double EXPIRATION_RATE=0.60;
-    
-    public Product() {
-    	this.id = ++totalProducts;
-    	
-    }
-    
+	private String name;
+	private Amount publicPrice;
+	private Amount wholesalerPrice;
+	private boolean available;
+	private int stock;
+	private static int totalProducts = 0;
+
+	public final static double EXPIRATION_RATE = 0.60;
+
+	public Product() {
+		this.id = ++totalProducts;
+
+	}
+
 	public Product(String name, Amount wholesalerPrice, boolean available, int stock) {
 		super();
-		this.id = totalProducts+1;
+		this.id = totalProducts + 1;
 		this.name = name;
 		this.wholesalerPrice = wholesalerPrice;
 		this.publicPrice = new Amount(wholesalerPrice.getValue() * 2);
@@ -62,19 +62,17 @@ public class Product {
 		this.publicPrice = publicPrice;
 	}
 
-	@XmlElement(name="wholesalerPrice")
+	@XmlElement(name = "wholesalerPrice")
 	public Amount getWholesalerPrice() {
 		return wholesalerPrice;
 	}
 
 	public void setWholesalerPrice(Amount wholesalerPrice) {
-		if(wholesalerPrice != null) {
-			this.publicPrice = new Amount(wholesalerPrice.getValue()*2);
-		}
 		this.wholesalerPrice = wholesalerPrice;
+		this.publicPrice = new Amount(wholesalerPrice.getValue() * 2);
 	}
 
-	@XmlElement(name="available")
+	@XmlElement(name = "available")
 	public boolean isAvailable() {
 		return available;
 	}
@@ -83,13 +81,14 @@ public class Product {
 		this.available = available;
 	}
 
-	@XmlElement(name="stock")
+	@XmlElement(name = "stock")
 	public int getStock() {
 		return stock;
 	}
 
 	public void setStock(int stock) {
 		this.stock = stock;
+		this.available = stock > 0;
 	}
 
 	public static int getTotalProducts() {
@@ -99,9 +98,10 @@ public class Product {
 	public static void setTotalProducts(int totalProducts) {
 		Product.totalProducts = totalProducts;
 	}
-	
+
 	public void expire() {
-		this.publicPrice.setValue(this.getPublicPrice().getValue()*EXPIRATION_RATE); ;
+		this.publicPrice.setValue(this.getPublicPrice().getValue() * EXPIRATION_RATE);
+		;
 	}
 
 	@Override
@@ -110,13 +110,4 @@ public class Product {
 				+ ", available=" + available + ", stock=" + stock + "]";
 	}
 
-	
-	
-	
-	
-	
-
-    
-
-    
 }

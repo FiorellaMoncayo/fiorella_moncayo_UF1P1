@@ -182,7 +182,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	}
 
 	public void exportInventory() {
-		shop.showInventory();
+		//shop.showInventory();
 		boolean init = shop.WriteInventory();
 		if (init) {
 			JOptionPane.showMessageDialog(this, "El inventario se exportó correctamente.", "Éxito",

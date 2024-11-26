@@ -48,7 +48,7 @@ public class Shop {
 		if (result) {
 	        System.out.println("Inventario guardado correctamente.");
 	    } else {
-	        System.err.println("Hubo un error al guardar el inventario.");
+	        System.out.println("Hubo un error al guardar el inventario.");
 	    }
 	    return result;
 	}
@@ -332,11 +332,16 @@ public class Shop {
 	 */
 	public void showInventory() {
 		System.out.println("Contenido actual de la tienda:");
-		for (Product product : inventory) {
-			if (product != null) {
-				System.out.println(product);
+		try {
+			for (Product product : inventory) {
+				if (product != null) {
+					System.out.println(product);
+				}
 			}
+		}catch (Exception e) {
+			System.out.println(e);
 		}
+		
 	}
 
 	/**
