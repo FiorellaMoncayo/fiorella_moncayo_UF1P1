@@ -12,6 +12,7 @@ import org.xml.sax.SAXException;
 
 import dao.xml.DomWriter;
 import dao.xml.SaxReader;
+import model.Amount;
 import model.Employee;
 import model.Product;
 
@@ -56,6 +57,24 @@ public class DaoImplXml implements Dao {
 	public boolean writeInventory(ArrayList<Product> inventory) {
 		DomWriter domWriter = new DomWriter(inventory);
 		return domWriter.generateDocument();
+	}
+
+	@Override
+	public boolean addProduct(String name, Amount price, int stock, boolean avaiblable) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean addStockProduct(String name, int stock) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean deleteProduct(String name) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

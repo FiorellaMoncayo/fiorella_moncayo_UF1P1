@@ -2,6 +2,8 @@ package dao;
 
 import java.util.ArrayList;
 import java.io.File;
+
+import model.Amount;
 import model.Employee;
 import model.Product;
 import model.ProductList;
@@ -64,6 +66,24 @@ public class DaoImplJaxb implements Dao{
 			return false;
 		}
 		
+	}
+
+	@Override
+	public boolean addProduct(String name, Amount price, int stock, boolean avaiblable) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean addStockProduct(String name, int stock) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean deleteProduct(String name) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

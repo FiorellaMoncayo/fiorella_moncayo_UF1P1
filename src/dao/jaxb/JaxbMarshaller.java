@@ -20,9 +20,9 @@ public class JaxbMarshaller { //clase que convertirá objetos Java en archivos X
 			JAXBContext context = JAXBContext.newInstance(ProductList.class);
 			Marshaller marshaller = context.createMarshaller(); 
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true); //Configura el marshaller para que el XML generado esté bien formateado
-			System.out.println("marshalling... ");
+			System.out.println("Realizando marshalling... ");
 			LocalDateTime today = LocalDateTime.now();
-			marshaller.marshal(productList, new File("jaxb/inventory_"+today.format(formatter)+".xml"));  //Convierte el objeto ProductList a XML y lo guarda en un archivo específico
+			marshaller.marshal(productList, new File("jab/inventory_"+today.format(formatter)+".xml"));  //Convierte el objeto ProductList a XML y lo guarda en un archivo específico
 			return true;
 		} catch (JAXBException e) {
 			e.printStackTrace();

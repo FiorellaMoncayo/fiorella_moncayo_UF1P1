@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import dao.Dao;
-import dao.DaoImplJaxb;
+import dao.DaoImplJDBC;
 
 public class Shop {
 	private Amount cash = new Amount(100.00);
@@ -28,14 +28,12 @@ public class Shop {
 //	private Sale[] sales;
 	private ArrayList<Sale> sales;
 	private int numberSales;
-//	Dao dao = new DaoImplFile();
-//	private Dao dao = new DaoImplJaxb();
-	private DaoImplJaxb dao;
+	private DaoImplJDBC dao;
 
 	final static double TAX_RATE = 1.04;
 
 	public Shop() {
-		this.dao = new DaoImplJaxb();
+		this.dao = new DaoImplJDBC();
 		inventory = new ArrayList<Product>();
 		sales = new ArrayList<Sale>();
 	}
@@ -44,12 +42,23 @@ public class Shop {
 
 	public boolean WriteInventory() {
 		//return dao.writeInventory(inventory);
-		boolean result = dao.writeInventory(inventory);
-		if (result) {
-	        System.out.println("Inventario guardado correctamente.");
-	    } else {
-	        System.out.println("Hubo un error al guardar el inventario.");
-	    }
+		//boolean result = dao.writeInventory(inventory);
+		dao.connect();
+		boolean result = false;
+		
+		try {
+			result = dao.writeInventory(inventory);
+			
+			if (result) {
+		        System.out.println("Inventario guardado correctamente.");
+		    } else {
+		        System.out.println("Hubo un error al guardar el inventario.");
+		    }
+		} catch (Exception e) {
+			System.out.println("Ocurrió un error al intentar guardar el inventario: " + e.getMessage());
+	        e.printStackTrace();
+		}
+		dao.disconnect();
 	    return result;
 	}
 	
@@ -153,7 +162,7 @@ public class Shop {
 				break;
 
 			case 2:
-				shop.addProduct();
+				shop.addProduct(null, 0, new Amount(0));
 				break;
 
 			case 3:
@@ -234,7 +243,14 @@ public class Shop {
 	 * read inventory from file
 	 */
 	private void readInventory() {
-		this.inventory = (dao.getInventory());
+		//this.inventory = (dao.getInventory());
+		dao.connect();
+		inventory = dao.getInventory();
+		
+		for(Product product : inventory) {
+			System.out.println(product);
+		}
+		dao.disconnect();
 	}
 
 	/**
@@ -247,20 +263,36 @@ public class Shop {
 	/**
 	 * add a new product to inventory getting data from console
 	 */
-	public void addProduct() {
-		if (isInventoryFull()) {
-			System.out.println("No se pueden añadir más productos");
-			return;
+	public boolean addProduct(String name, int stock, Amount price) {
+		
+		Product productInInventory = findProduct(name);
+	    if (productInInventory != null) {
+	        System.out.println("El producto ya existe en el inventario.");
+	        return false;
+	    }
+	    
+	    dao.connect();
+		
+	    boolean operationResult = false;
+		
+		try {
+			boolean available = stock > 0;
+			addProduct(new Product(name, price, available, stock));
+			operationResult = dao.addProduct(name, price, stock, available);
+			
+			 if (operationResult) {
+		            System.out.println("Producto añadido correctamente al inventario.");
+		        } else {
+		            System.out.println("Error al añadir el producto a la base de datos.");
+		        }
+			
+		} catch (Exception e) {
+			System.out.println("Ocurrió un error al intentar añadir el producto: " + e.getMessage());
+			e.printStackTrace();
 		}
-		Scanner scanner = new Scanner(System.in);
-		System.out.print("Nombre: ");
-		String name = scanner.nextLine();
-		System.out.print("Precio mayorista: ");
-		double wholesalerPrice = scanner.nextDouble();
-		System.out.print("Stock: ");
-		int stock = scanner.nextInt();
+		dao.disconnect();
 
-		addProduct(new Product(name, new Amount(wholesalerPrice), true, stock));
+	    return operationResult;
 	}
 
 	/**
@@ -277,16 +309,26 @@ public class Shop {
 		Product product = findProduct(name);
 
 		if (product != null) {
-			// remove it
-			if (inventory.remove(product)) {
-				System.out.println("El producto " + name + " ha sido eliminado");
+	        dao.connect(); // Conectar al DAO
 
-			} else {
-				System.out.println("No se ha encontrado el producto con nombre " + name);
-			}
-		} else {
-			System.out.println("No se ha encontrado el producto con nombre " + name);
-		}
+	        try {
+	            if (dao.deleteProduct(name)) {
+	                // Si la eliminación en la base de datos fue exitosa, eliminar de la lista
+	                inventory.remove(product);
+	                System.out.println("El producto " + name + " ha sido eliminado del inventario.");
+	            } else {
+	                System.out.println("Error: No se pudo eliminar el producto de la base de datos.");
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Ocurrió un error al intentar eliminar el producto: " + e.getMessage());
+	            e.printStackTrace();
+	        }
+
+	        dao.disconnect();
+
+	    } else {
+	        System.out.println("No se ha encontrado el producto con nombre " + name);
+	    }
 	}
 
 	/**
@@ -297,18 +339,23 @@ public class Shop {
 		System.out.print("Seleccione un nombre de producto: ");
 		String name = scanner.next();
 		Product product = findProduct(name);
+		
+		dao.connect();
 
 		if (product != null) {
 			// ask for stock
 			System.out.print("Seleccione la cantidad a añadir: ");
 			int stock = scanner.nextInt();
 			// update stock product
+			dao.addStockProduct(name, stock);
 			product.setStock(product.getStock() + stock);
 			System.out.println("El stock del producto " + name + " ha sido actualizado a " + product.getStock());
 
 		} else {
 			System.out.println("No se ha encontrado el producto con nombre " + name);
 		}
+		
+		dao.disconnect();
 	}
 
 	/**
