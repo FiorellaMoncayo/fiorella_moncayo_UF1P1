@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import dao.Dao;
+import dao.DaoImplHibernate;
 import dao.DaoImplJDBC;
 
 public class Shop {
@@ -28,12 +29,13 @@ public class Shop {
 //	private Sale[] sales;
 	private ArrayList<Sale> sales;
 	private int numberSales;
-	private DaoImplJDBC dao;
+	//private DaoImplJDBC dao;
+	private DaoImplHibernate dao;
 
 	final static double TAX_RATE = 1.04;
 
 	public Shop() {
-		this.dao = new DaoImplJDBC();
+		this.dao = new DaoImplHibernate();
 		inventory = new ArrayList<Product>();
 		sales = new ArrayList<Sale>();
 	}
