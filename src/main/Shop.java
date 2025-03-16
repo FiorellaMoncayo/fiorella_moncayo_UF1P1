@@ -20,6 +20,7 @@ import java.util.Scanner;
 import dao.Dao;
 import dao.DaoImplHibernate;
 import dao.DaoImplJDBC;
+import dao.DaoImplMongoDB;
 
 public class Shop {
 	private Amount cash = new Amount(100.00);
@@ -30,12 +31,12 @@ public class Shop {
 	private ArrayList<Sale> sales;
 	private int numberSales;
 	//private DaoImplJDBC dao;
-	private DaoImplHibernate dao;
-
+	//private DaoImplHibernate dao;
+	private DaoImplMongoDB dao;
 	final static double TAX_RATE = 1.04;
 
 	public Shop() {
-		this.dao = new DaoImplHibernate();
+		this.dao = new DaoImplMongoDB();
 		inventory = new ArrayList<Product>();
 		sales = new ArrayList<Sale>();
 	}
@@ -192,7 +193,7 @@ public class Shop {
 				break;
 
 			case 9:
-				shop.removeProduct();
+				shop.removeProduct(null);
 				break;
 
 			case 10:
@@ -300,24 +301,24 @@ public class Shop {
 	/**
 	 * remove a new product to inventory getting data from console
 	 */
-	public void removeProduct() {
+	public void removeProduct(Product product) {
 		if (inventory.size() == 0) {
 			System.out.println("No se pueden eliminar productos, inventario vacio");
 			return;
 		}
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Seleccione un nombre de producto: ");
-		String name = scanner.next();
-		Product product = findProduct(name);
+		//String name = scanner.next();
+		//Product product = findProduct(name);
 
 		if (product != null) {
 	        dao.connect(); // Conectar al DAO
 
 	        try {
-	            if (dao.deleteProduct(name)) {
+	            if (dao.deleteProduct(product.getName())) {
 	                // Si la eliminación en la base de datos fue exitosa, eliminar de la lista
 	                inventory.remove(product);
-	                System.out.println("El producto " + name + " ha sido eliminado del inventario.");
+	                System.out.println("El producto " + product.getName() + " ha sido eliminado del inventario.");
 	            } else {
 	                System.out.println("Error: No se pudo eliminar el producto de la base de datos.");
 	            }
@@ -329,7 +330,7 @@ public class Shop {
 	        dao.disconnect();
 
 	    } else {
-	        System.out.println("No se ha encontrado el producto con nombre " + name);
+	        System.out.println("No se ha encontrado el producto con nombre " + product.getName());
 	    }
 	}
 
